@@ -23,6 +23,23 @@ The improvement in skill of numerical weather prediction over the last 40 years 
 \subsection{Primitive equations, global and regional models, and nonhydrostatic models}
 \label{subs:historical_overview:primitive_equations}
 
+Whilst quasi-geostrophic equations may be useful for understanding the large-scale extratropical dynamics of the atmosphere, they are not accurate enough to allow for continued progress in Numerical Weather Prediction (NWP).
+They are therefore replaced by the primitive equations.
+The primitive equations are conservation laws applied to individual parcels of air:
+\begin{itemize}
+\item Conservation of three-dimensional momentum - the equations of motion;
+\item Conservation of energy - the first law of thermodynamics;
+\item Conservation of dry air mass - the continuity equation;
+\item Conservation of moisture in all of its phases;
+\item Ideal gas law.
+\end{itemize}
+Unlike the quasi-geostrophic equation previously used, these equations capture fast gravity and sound waves; however this requires that finer time discretisation is used (or some alternative method).
+
+Continuous equations of motion are solved by discretisation in space and time.
+The accuracy of a model is strongly influenced by the spatial resolution: typically, the higher the resolution, the more accurate the model.
+This increase in resolution incurs greater computational cost though.
+Whilst modern numerical methods have attempted to alleviate this cost (using semi-implicit and semi-Lagrangian time schemes), the continued increase in spatial resolution is effectively an endless ``race to the bottom'', with constant demand for higher resolution to improve NWP forecasts.
+
 \section{The continuous equations}
 \label{sec:kalnay:continuous_equations}
 
