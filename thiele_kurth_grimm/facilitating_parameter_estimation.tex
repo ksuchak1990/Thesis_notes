@@ -29,8 +29,37 @@ Becoming established in these fields has occurred in two phases:
     Here, the models are developed to demonstrate mechanisms, but not typically with the intention of making predictions.
     The models are most often evaluated qualitative.
     Do these really explain observed phenomena?
-    \item 
+    \item Upon reaching a critical mass of models pertaining to a line of enquiry, attention shifts towards using the models to gain insight into how systems actually work.
+    With this, we see a tendency towards more quantitative analyses of the models.
+    We therefore look to undertake sensitivity analysis and calibration.
 \end{enumerate}
+The aforementioned quantitative approaches as still not frequently used.
+This may be due to a number of reasons:
+\begin{itemize}
+    \item availability of data,
+    \item lack of agreement on the theory of certain processes,
+    \item the complexity of agents' decision-making processes.
+\end{itemize}
+Furthermore, the users of ABMs ecology and social sciences may lack the technical training on the theory and implementation of these sensitivity analysis and calibration methods.
+Whilst the methods themselves have been documented, they are typically dense, and consequently not very accessible to practitioners in the fields of ecology and social sciences.
+
+The aim of this article is, therefore, to introduce software and scripts to guide the use of sensitivity analysis, calibration and the design of simulations.
+This will be achieved using a combination of R and NetLogo.
+A brief overview of these languages, and other pertinent software is provided.
+
+The rigorous backgrounds of the sensitivity analysis and calibration methods is not provided, owing to the already substantial body of literature on the topics.
+Furthermore, the provided applications of the methods should be taken as illustrative, and as such have not been fine-tuned or optimised.
+
+\subsubsection{Software requirements}
+\label{thiele:intro:software}
+
+An introduction on how to obtain NetLogo and R is provided, along with a template for running a NetLogo ABM through R (which shall form the basis of subsequent examples).
+
+\subsection{The example model}
+\label{thiele:intro:example}
+
+The basis of the model is outlined.
+The model implemented is a simplified representation of the group dynamics of a population of territorial bird species with reproductive suppression (that is to say that in each group, the dominant couple suppress the reproduction of subordinate mature members of the population).
 
 \section{Parameter estimation and calibration}
 \label{thiele:parameter_estimation}
