@@ -50,7 +50,7 @@ A brief overview of these languages, and other pertinent software is provided.
 The rigorous backgrounds of the sensitivity analysis and calibration methods is not provided, owing to the already substantial body of literature on the topics.
 Furthermore, the provided applications of the methods should be taken as illustrative, and as such have not been fine-tuned or optimised.
 
-\subsubsection{Software requirements}
+\subsection{Software requirements}
 \label{thiele:intro:software}
 
 An introduction on how to obtain NetLogo and R is provided, along with a template for running a NetLogo ABM through R (which shall form the basis of subsequent examples).
@@ -60,15 +60,63 @@ An introduction on how to obtain NetLogo and R is provided, along with a templat
 
 The basis of the model is outlined.
 The model implemented is a simplified representation of the group dynamics of a population of territorial bird species with reproductive suppression (that is to say that in each group, the dominant couple suppress the reproduction of subordinate mature members of the population).
+The key behaviour of this system that is encapsulated by this model is subordinate birds' decision as to when to leave their territory to undertake scouting forays.
+These scouting forays offer opportunities to free alpha positions or breeding positions.
+Note that this terminology is not immediately transparent to readers without a ecological simulation background, and could be expanded up further.
+Birds that do not successful on their forays return to their home territory.
+Birds that are on forays leave themselves open to attack by raptors, and as such experience an increased mortality risk.
+The model offers investigators the opportunity to develop new theories regarding the decision to undertake scouting forays.
+This is achieved by implementing alternative submodels of the foray decision and comparing the full model output against real-world patterns.
+This article implements the simplest submodel, in which the probability of subordinates undertaking scouting forays is constant.
 
 \subsubsection{Purpose}
 \label{thiele:intro:example:purpose}
 
+The model is implemented to explore how the decisions of subordinate birds to undertake scouting forays impact the structure and dynamics of the social group and overall population.
+
 \subsubsection{Entities, state variables, and scales}
 \label{thiele:intro:example:entities}
 
+The model is made up of the birds and the territories - we consider these to be the entities.
+By territory, we mean both the social group of birds, and the space that the group occupies.
+The territories that are not occupied by a group are designated as empty.
+In this model, our territories are arranged in a one-dimensional row with a periodic boundary, such that exiting one end of the row results in entry at the other end; topologically a ring.
+Each of the types of entities consists of a collection of state variables:
+\begin{itemize}
+    \item Territories:
+    \begin{itemize}
+        \item coordinates of its location,
+        \item list of birds residing at the territory.
+    \end{itemize}
+    \item Birds:
+    \begin{itemize}
+        \item sex,
+        \item age (in months),
+        \item alpha status (i.e. whether or not the bird is alpha).
+    \end{itemize}
+\end{itemize}
+The model is simulated with a time-step of one month, running for 22 years.
+The output of the first two years is ignored.
+
 \subsubsection{Process overview and scheduling}
 \label{thiele:intro:example:overview}
+
+The following procedure is implemented iteratively, executing once per time-step:
+\begin{enumerate}
+    \item Update date and ages of birds.
+    \item Territories attempt to fill vacant alpha positions. This is achieved by territories that are without an picking the oldest subordinate that fulfils the following criteria as the new alpha:
+    \begin{itemize}
+        \item subordinate is an adult (age $>$ 12 months),
+        \item subordinate is of the correct sex.
+    \end{itemize}
+    \item Birds undertake scouting forays:
+    \begin{itemize}
+        \item Adult subordinates decide whether to scout for new territory that has a vacant alpha position.
+        \item If no other non-alpha is in the territory then the subordinate adult stays there.
+        \item  
+    \end{itemize}
+\end{enumerate}
+
 
 \subsubsection{Design concepts}
 \label{thiele:intro:example:design}
