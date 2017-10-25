@@ -113,10 +113,12 @@ The following procedure is implemented iteratively, executing once per time-step
     \begin{itemize}
         \item Adult subordinates decide whether to scout for new territory that has a vacant alpha position.
         \item If no other non-alpha is in the territory then the subordinate adult stays there.
-        \item  
+        \item  If there are any older non-alphas present in the current home territory, the subordinate adult undertakes a scouting foray with probability $scout-prob$.
+        \item If the bird chooses to scout, then it randomly moves either left or right along the row of territories.
+        \item Scouting birds are can only explore up to the $scouting-distance$ in their chosen direction.
+        \item Out of those territories, the bird chooses to occupy the the one that  
     \end{itemize}
 \end{enumerate}
-
 
 \subsubsection{Design concepts}
 \label{thiele:intro:example:design}
@@ -133,6 +135,92 @@ The following procedure is implemented iteratively, executing once per time-step
 \section{Parameter estimation and calibration}
 \label{thiele:parameter_estimation}
 
+\subsection{Preliminaries: Fitting criteria for the example model}
+\label{thiele:parameter:prelims}
+
+\subsection{Full factorial design}
+\label{thiele:parameter:full}
+
+\subsection{Classical sampling methods}
+\label{thiele:parameter:classical}
+
+\subsubsection{Simple random sampling}
+\label{thiele:parameter:classical:simple}
+
+\subsection{Latin hypercube sampling}
+\label{thiele:parameter:latin}
+
+\subsection{Optimisation methods}
+\label{thiele:parameter:optimisation}
+
+\subsubsection{Gradient and quasi-Newton methods}
+\label{thiele:parameter:optimisation:gradient}
+
+\subsubsection{Simulated annealing}
+\label{thiele:parameter:optimisation:annealing}
+
+\subsubsection{Evolutionary or genetic algorithms}
+\label{thiele:parameter:optimisation:genetic}
+
+\subsection{Bayesian methods}
+\label{thiele:parameter:bayesian}
+
+\subsubsection{Rejection and regression sampling}
+\label{thiele:parameter:bayesian:rejection}
+
+\subsubsection{Markov chain Monte Carlo}
+\label{thiele:parameter:bayesian:mcmc}
+
+\subsubsection{Sequential Monte Carlo}
+\label{thiele:parameter:bayesian:seqmc}
+
+\subsection{Costs and benefits of approaches to parameter estimation and calibration}
+\label{thiele:parameter:cost_and_benefits}
+
 \section{Sensitivity analysis}
 \label{thiele:sensitivity_analysis}
 
+\subsection{Preliminaries: Experimental setup for the example model}
+\label{thiele:sensitivity:prelims}
+
+\subsection{Local sensitivity analysis}
+\label{thiele:sensitivity:local}
+
+\subsection{Screening methods}
+\label{thiele:sensitivity:screening}
+
+\subsubsection{Morris's elementary effects screening}
+\label{thiele:sensitivity:screening:morris}
+
+\subsection{Global sensitivity analysis}
+\label{thiele:sensitivity:global}
+
+\subsubsection{Excursion: Design of Experiment}
+\label{thiele:sensitivity:global:excursion}
+
+\subsubsection{Regression-based methods}
+\label{thiele:sensitivity:global:regression}
+
+\subsubsection{Partial (rank) correlation coefficient}
+\label{thiele:sensitivity:global:partial}
+
+\subsubsection{Standardised (rank) regression coefficient}
+\label{thiele:sensitivity:global:standardised}
+
+\subsubsection{Variance decomposition methods}
+\label{thiele:sensitivity:global:variance}
+
+\subsubsection{Sobol' Method}
+\label{thiele:sensitivity:sobol}
+
+\subsubsection{Extended Fourier amplitude sensitivity test}
+\label{thiele:sensitivity:sobol:fourier}
+
+\subsubsection{FANOVA decomposition with Gaussian process}
+\label{thiele:sensitivity:sobol:fanova}
+
+\subsection{Costs and benefits of approaches to sensitivity analysis}
+\label{thiele:sensitivity:sobol:costs_and_benefits}
+
+\section{Discussion}
+\label{thiele:discussion}
