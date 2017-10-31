@@ -7,11 +7,25 @@
 \subsection{Background}
 \label{malleson:abstract:background}
 
+With such an abundance of real-world data, much research is being undertaken to produce highly accurate models of the current states of urban systems; however, the predictive capabilities of these models is limited.
+This general trend also applies to agent-based models (ABMs), owing to the difficulty of incorporating up-to-date data to reduce deviation of model forecasts from reality. 
+
 \subsection{Methods}
 \label{malleson:abstract:methods}
 
+The methods contained herein constitute a portion of ongoing work to appropriate data assimilation methods from fields including meteorology, allowing ABMs to incorporate data in real time.
+This paper is based on a simple example model of people moving along a street, which is then optimised dynamically using an ensemble Kalman filter in response to hypothetical pedestrian count data.
+
 \subsection{Findings}
 \label{malleson:abstract:findings}
+
+\begin{itemize}
+    \item data assimilation technique reliably estimates the model parameter that it is attempting to optimise
+    \begin{itemize}
+        \item how do we measure reliability?
+    \end{itemize}
+    \item estimates of the `true' system state that are produced by model combined with noisy observations are less accurate than observations in isolation
+\end{itemize}
 
 \section{Introduction}
 \label{malleson:intro}
