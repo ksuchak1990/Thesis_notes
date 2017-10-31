@@ -30,6 +30,16 @@ This paper is based on a simple example model of people moving along a street, w
 \section{Introduction}
 \label{malleson:intro}
 
+With the increasing abundance of high-quality data regarding people's individual activities, there is a growing interest in smart cities --- cities that have the ability to monitor through the use of tech.
+However, whilst these smart cities are able to monitor, little has thus far been down to make use of this observation to forecast and react.
+It is speculated that this may be as a result of the lack of appropriate methods.
+
+Agent-based models (ABMs) seem to be the most appropriate manner in which to model urban systems; however, calibration of ABMs typically involves the one-off injestion of historical data, then allowing the simulation to progress forward in time, likely diverging from reality and waning in accuracy.
+
+The paper therefore seeks to present a portion of ongoing work that adapts data assimilation techniques such as those found in meteorology to allow ABMs to be optimised by real-time data.
+The primary challenge to this approach is that data assimilation techniques are typically designed for systems of differential equations.
+The paper presents a simple ABM used to simulate to movement of people moving down a street, which is then dynamically optimised using (hypothetical) pedestrian count data.
+
 \section{Context}
 \label{malleson:context}
 
