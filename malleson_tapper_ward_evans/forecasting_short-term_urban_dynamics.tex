@@ -56,6 +56,21 @@ The model therefore aims to simulate the movements of the pedestrians, with the 
 \subsection{The Agent-Based Model}
 \label{malleson:methods:abm}
 
+The ABM outlined here is a simple one, reflecting the scenario portrayed in Section \ref{malleson:context}.
+The environment is displayed in Figure \ref{fig:malleson_abm_environment}.
+It is made up of an entrance point and exit point linked by a one-dimensional street; here, the entrance is denotes as point A with coordinate 1, and the exit is denoted as point B with coordinate 40.
+
+
+
+
+\begin{figure}
+  \centering
+    \includegraphics[width=\textwidth]{malleson_abm_environment.png}
+  \caption{ABM environment.}
+  \label{fig:malleson_abm_environment}
+\end{figure}
+
+
 \subsection{The Ensemble Kalman Filter (EnKF)}
 \label{malleson:methods:enkf}
 
@@ -86,3 +101,8 @@ The model therefore aims to simulate the movements of the pedestrians, with the 
 \section{Conclusions and Future Outlook}
 \label{malleson:conclusion}
 
+\begin{itemize}
+    \item Paper presents recent results from ongoing project focussing on the implementation of data assimilation methods for ABMs.
+    \item In particular, using an ensemble Kalman Filter for paraemter estimation.
+    \item The aim to develop methods to assimilation data streamed in real time.
+\end{itemize}
