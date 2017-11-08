@@ -98,6 +98,30 @@ It is made up of an entrance point and exit point linked by a one-dimensional st
 \section{Results}
 \label{malleson:results}
 
+\begin{itemize}
+    \item Aim to assess how successful the enKF has been at:
+    \begin{itemize}
+        \item prediction of footfall at point B,
+        \item estimation of bleed out rate, $r$.
+    \end{itemize}
+    \item Results for virtual observation error of $\mu=0$, $\sigma^2 = 5$:
+    \begin{itemize}
+        \item analysis is very close to both the truth and virtual observations,
+        \item the Kalman filter quickly settles on an accurate estimation of $r$.
+    \end{itemize}
+    \item Error assessed using the RMSE:
+    \begin{itemize}
+        \item Forecast: $9.80$
+        \item Analysis: $2.58$
+        \item Observation: $0.91$
+    \item Expected analysis to be smallest as model system converges on real system
+    \begin{itemize}
+        \item Could be because of the level of randomness in the model
+    \end{itemize}
+    \item Otherwise, the parameter estimation seems to work ok.
+    \end{itemize}
+\end{itemize}
+
 \section{Conclusions and Future Outlook}
 \label{malleson:conclusion}
 
