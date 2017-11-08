@@ -56,12 +56,39 @@ The model therefore aims to simulate the movements of the pedestrians, with the 
 \subsection{The Agent-Based Model}
 \label{malleson:methods:abm}
 
-The ABM outlined here is a simple one, reflecting the scenario portrayed in Section \ref{malleson:context}.
-The environment is displayed in Figure \ref{fig:malleson_abm_environment}.
-It is made up of an entrance point and exit point linked by a one-dimensional street; here, the entrance is denotes as point A with coordinate 1, and the exit is denoted as point B with coordinate 40.
-
-
-
+\begin{itemize}
+    \item Using a simple ABM reflecting the scenario portrayed in Section \ref{malleson:context}.
+    \item Modelling a one-dimensional street with an entrance point and exit point:
+    \begin{itemize}
+        \item the entrance is denoted as point A with coordinate 1,
+        \item the exit is denoted as point B with coordinate 40,
+        \item See figure \ref{fig:malleson_abm_environment}.
+    \end{itemize}
+    \item The model is Markovian --- Markov definition\ldots
+    \item Constant number of agents in model --- 600 for this case.
+    \item Agents can be in one of two states:
+    \begin{itemize}
+        \item Active --- moving from point A to point B with a rate of one coordinate per iteration.
+        \item Retired --- present in the model, but not active in the street. In this situtation, the agent has a null position, $N$.
+    \end{itemize}
+    \item All active agents occupy one of the 40 cells.
+    \item Hypothetical footfall cameras located at A and B record entry and exit, giving hourly counts.
+    \item State vector contains:
+    \begin{itemize}
+        \item agent location, $\left( x , y \right)$,
+        \item bleed out rate, $r$,
+        \item camera count at A,
+        \item camera count at B.
+    \end{itemize}
+    \item Each iteration corresponds to one real minute.
+    \item Every hour, a certain number of agents go from N to A (i.e. they become active, having previously been retired).
+    \item A midpoint exit exists in the street denoted as M, at $\left( 0, 24 \right)$.
+    \begin{itemize}
+        \item This allows agents to exit the street without being captured by the camera at B.
+        \item Agents reaching M will be returned to N with probability $r$; else they continue their journey.
+    \end{itemize}
+    \item The rate of entry at A is set for each hour (distributed approximately normal, peak at midday), and does not change day to day.
+\end{itemize}
 
 \begin{figure}
   \centering
@@ -70,15 +97,39 @@ It is made up of an entrance point and exit point linked by a one-dimensional st
   \label{fig:malleson_abm_environment}
 \end{figure}
 
-
 \subsection{The Ensemble Kalman Filter (EnKF)}
 \label{malleson:methods:enkf}
+
+\begin{itemize}
+    \item Standard method for data assimilation in meteorology
+    \item The method makes use of noisy observations and a model representation of system to produce estimates of the true system state.
+    \item Achived by combining the observations with model forecasts, weighting influence by uncertainty --- the adjusted estimate should be more accurate than the observations.
+    \item The EnKF maintains an ensemble (thus the name) of estimated model states, which is typically initialised with real-world data.
+    \item Each model state then iterates forward in time using the steps:
+    \begin{enumerate}
+        \item Forecast step,
+        \item Data assimilation step,
+    \end{enumerate}
+    which are outlined as follows in Sections \ref{methods:enkf:forecast} and \ref{methods:enkf:assimilation}.
+\end{itemize}
 
 \subsubsection{The forecast step}
 \label{methods:enkf:forecast}
 
+\begin{itemize}
+    \item Each model in the ensemble is run forward until the next set of observation data becomes available, producing a set of system state forecasts.
+    \item The forecasted ensemble mean gives an estimate of the true state.
+    \item The forecasted ensemble covariance gives a measure of the uncertainty.
+\end{itemize}
+
 \subsubsection{The data assimilation step}
 \label{methods:enkf:assimilation}
+
+\begin{itemize}
+    \item The ensemble analysis is produced, i.e. the updated ensemble forecasts given the observations.
+    \item The ensemble analysis mean gives the best estimate of the true state.
+    \item The ensemble analysis covariance gives a measure of the uncertainty.
+\end{itemize}
 
 \subsection{Application of the EnKF to the ABM}
 \label{malleson:methods:application}
@@ -114,12 +165,12 @@ It is made up of an entrance point and exit point linked by a one-dimensional st
         \item Forecast: $9.80$
         \item Analysis: $2.58$
         \item Observation: $0.91$
+    \end{itemize}
     \item Expected analysis to be smallest as model system converges on real system
     \begin{itemize}
         \item Could be because of the level of randomness in the model
     \end{itemize}
     \item Otherwise, the parameter estimation seems to work ok.
-    \end{itemize}
 \end{itemize}
 
 \section{Conclusions and Future Outlook}
