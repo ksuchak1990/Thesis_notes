@@ -110,7 +110,7 @@ The model therefore aims to simulate the movements of the pedestrians, with the 
         \item Forecast step,
         \item Data assimilation step,
     \end{enumerate}
-    which are outlined as follows in Sections \ref{methods:enkf:forecast} and \ref{methods:enkf:assimilation}.
+    which are outlined below.
 \end{itemize}
 
 \subsubsection{The forecast step}
@@ -137,14 +137,49 @@ The model therefore aims to simulate the movements of the pedestrians, with the 
 \subsubsection{Hypothetical `Real World' Data}
 \label{methods:application:data}
 
+\begin{itemize}
+    \item Using a sythetic set of streaming data:
+    \begin{itemize}    
+        \item $r$ drawn from $\mathcal{N} \sim (\mu=0.5, \sigma^2=0.1)$ once and kept constant.
+        \item Model executed for 7,200 simulation minutes.
+        \item Add normal random noise to simulate error, drawn from $\mathcal{N} \sim (\mu=5, \sigma^2=5)$; changed to $\sigma^2=10$, $\sigma^2=15$ to explore impacts of noise.
+    \end{itemize}
+\end{itemize}
+
 \subsubsection{The Forecast Step}
 \label{methods:application:forecast}
+
+\begin{itemize}
+    \item An observation vector is produced, consisting of the number of agents who passed the cameras at point A and point B each hour; these are our simulated true counts.
+    \item Ensemble of size 30, each with a bleed out rate $r$ drawn from $\mathcal{N} \sim \left( \mu=0.5, \sigma^2=0.1 \right)$.
+    \item Each model is run forward in time for a simulated hour, with the forecasted state vectors stored.
+    \item Calculate the ensemble mean and covariance matrix $\mathbf{P}$.
+\end{itemize}
 
 \subsubsection{The Data Assimilation Step}
 \label{methods:applicaiton:assimilation}
 
+\begin{itemize}
+    \item After one simulation hour has pass, new footfall data has been produced by the cameras.
+    \item Get observation vector of counts from cameras at A and B.
+    \item Define $\mathbf{H}$ as the transformation matrix that changes the state vector from its current form to the same form as the observation vector.
+    \item Calculate the Kalman gain matrix, $\mathbf{K}$, which represents the the importance of the observational estimates relative to the predicted estimates.
+    \item Calculate the ensemble analysis:
+    \begin{equation}
+        Analysis = Forecasts + \mathbf{K} \times \left(
+            VirtualObservations - Forecasts
+        \right)
+    \end{equation}
+\end{itemize}
+
 \subsubsection{\ldots and repeat \ldots}
 \label{methods:application:repeat}
+
+\begin{itemize}
+    \item The data assimilation step updates the ensemble, incorporating the system estimates from the observational data.
+    \item This produces the new estimate of the true system state, which should be more accurate than either of the estimation sources in isolation.
+    \item We continue by iterating forward through the forecast and data assimilation steps.
+\end{itemize}
 
 \section{Results}
 \label{malleson:results}
