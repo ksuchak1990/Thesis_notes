@@ -222,3 +222,6 @@ TSWLatexianTemp*
 # sublime project
 *.sublime-project
 *.sublime-workspace
+
+# Others
+*.db
