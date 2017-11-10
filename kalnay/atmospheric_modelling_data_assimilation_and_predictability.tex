@@ -100,8 +100,34 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
 \subsection{Introduction}
 \label{sub:data_assimilation:intro}
 
+\begin{itemize}
+    \item NWP is an initial value problem.
+    \item Data assimilation is the name given to the statistical approach to combining observations and forecasts.
+\end{itemize}
+
 \subsection{Empirical analysis schemes}
 \label{sub:data_assimilation:analysis}
+
+\begin{itemize}
+    \item First estimate of gridded field is given by the background (i.e. first guess) field:
+    \begin{equation}
+        f_i^0 = f_i^b
+    \end{equation}
+    where $f_i^b$ is the background evaluated at the $i$, and $f_i^0$ is the corresponding zeroth iteration estimate of the gridded field.
+    \item Subsequent iterations are obtained through ``successive corrections'':
+    \begin{equation}
+        f_i^{n+1} = f_i^n + 
+        \frac{\sum_{k=1}^{K_i^n} w_{ik}^n \left( f_k^O - f_k^n \right)}
+        {\sum_{k=1}^{K_i^n} w_{ik}^n + \varepsilon^2}
+    \end{equation}
+    where:
+    \begin{itemize}
+        \item $f_i^n$: $n$th iteration estimate at grid point $i$,
+        \item $f_k^O$: $k$th observation surrounding grid point $i$,
+        \item $f_k^n$: $n$th field estimate evaluated at observation point $k$ (through interpolation),
+        \item $\varepsilon^2$: estimate of the ratio of observation error variance to background error variance.
+    \end{itemize}
+\end{itemize}
 
 \subsection{Introduction to least squares methods}
 \label{sub:data_assimilation:squares}
