@@ -40,17 +40,155 @@ The accuracy of a model is strongly influenced by the spatial resolution: typica
 This increase in resolution incurs greater computational cost though.
 Whilst modern numerical methods have attempted to alleviate this cost (using semi-implicit and semi-Lagrangian time schemes), the continued increase in spatial resolution is effectively an endless ``race to the bottom'', with constant demand for higher resolution to improve NWP forecasts.
 
-\section{The continuous equations}
-\label{sec:kalnay:continuous_equations}
+\subsection{Data assimilation determination of the initial conditions for the computer forecasts}
+\label{subs:historical_overview:assimilation}
 
-\section{Numerical discretization of the equations of motion}
-\label{sec:kalnay:numerical_discretization}
+\begin{itemize}
+    \item NWP is an intial-value problem --- given an estimated starting state, the model forecasts the system's evolution --- as therefore, the determination of the initial conditions is very imporant.
+    \item This hass been achieved through:
+    \begin{itemize}
+        \item successive correction methods (SCM),
+        \item optimal interpolation (OI),
+        \item variational methods in three and four dimensions (3D-Var, 4D-Var),
+        \item Kalman filtering (KF).
+    \end{itemize}
+    \item Additional information is required to prepare the intial conditions for forecasts, which we call `background', `first guess' or `prior information'.
+    \item Terminology for this section:
+    \begin{itemize}
+        \item $x^b$: a three-dimensional array, `background field',
+        \item $y^o$: `observed variables',
+        \item $H$: `observation operator' --- performs the necessary interpolation and transformation from model variables to observation space,
+        \item $H \left( x^b \right)$: `first guess observations',
+        \item $y^o - H \left( x^b \right)$: `observation increments' or `innovations' --- the difference between the observations and the model first guess,
+        \item $W$: weights,
+        \item $x^a$: `the analysis' --- adding the innovations to the model forecast with weights $W$ based on the estimated statistacl error covariances of forecast and observations:
+        \begin{equation}
+            \mathbf{x^a} = \mathbf{x^b} + \mathbf{W} 
+            \left[ \mathbf{y^o} - \mathbf{H} \left( \mathbf{x^b} \right) \right]
+        \end{equation}
+        This acts as the basis for various analysis schemes
+        \item SCM: weights are empirically determined, as a function of distance between observation and grid point.
+        \item OI: matrix of weights is determined from the minimisation of analysis errors at each grid point.
+        \item 3D-Var: Defining cost function proportional to the square of the distance between the analysis and the background and observations, and aim to minimise it.
+        \item Differences between OI and 3D-Var: in OI weights W are obtained using simplifications; in 3D-Var minimisation is performed directly.
+        \item 4D-Var: lookat minimisation problem from 3D-Var but also considering distance to observations over time window.
+    \end{itemize}
+\end{itemize}
 
-\section{Introduction to the parameterization of subgrid-scale physical processes}
-\label{sec:kalnay:parameterization}
+\subsection{Weather predictability, ensemble forecasting, and seasonal to interannual prediction}
+\label{subs:historical_overview:predictability}
+
+\begin{itemize}
+    \item Given that the skill of forecasting decreases with time, it is suggested that stochastic forecasting should be favoured over deterministic forecasting, providing an estimate of the prediction.
+    \item This is achieved through ensemble forecasting, where multiple models are run forward to forecast, with small perturbations being introduced.
+    \item The result is an ensemble average forecast that is typically more accurate than individual forecasts beyond the first few days; furthermore, it provides forecasters with a measure of reliability.
+    \item This system can also be used to develop adaptive and targeted observation networks.
+\end{itemize}
+
+% \section{The continuous equations}
+% \label{sec:kalnay:continuous_equations}
+
+% \section{Numerical discretization of the equations of motion}
+% \label{sec:kalnay:numerical_discretization}
+
+% \section{Introduction to the parameterization of subgrid-scale physical processes}
+% \label{sec:kalnay:parameterization}
 
 \section{Data assimilation}
 \label{sec:kalnay:data_assimilation}
 
-\section{Atmospheric predictability and ensemble forecasting}
-\label{sec:kalnay:predictability}
+\subsection{Introduction}
+\label{sub:data_assimilation:intro}
+
+\begin{itemize}
+    \item NWP is an initial value problem.
+    \item Data assimilation is the name given to the statistical approach to combining observations and forecasts.
+\end{itemize}
+
+\subsection{Empirical analysis schemes}
+\label{sub:data_assimilation:analysis:empirical}
+
+\subsubsection{Successive corrections method (SCM)}
+\label{subs:empirical:scm}
+
+\begin{itemize}
+    \item First estimate of gridded field is given by the background (i.e. first guess) field:
+    \begin{equation}
+        f_i^0 = f_i^b
+    \end{equation}
+    where $f_i^b$ is the background evaluated at the $i$, and $f_i^0$ is the corresponding zeroth iteration estimate of the gridded field.
+    \item Subsequent iterations are obtained through ``successive corrections'':
+    \begin{equation}
+        f_i^{n+1} = f_i^n + 
+        \frac{\sum_{k=1}^{K_i^n} w_{ik}^n \left( f_k^O - f_k^n \right)}
+        {\sum_{k=1}^{K_i^n} w_{ik}^n + \varepsilon^2}
+    \end{equation}
+    where:
+    \begin{itemize}
+        \item $f_i^n$: $n$th iteration estimate at grid point $i$,
+        \item $f_k^O$: $k$th observation surrounding grid point $i$,
+        \item $f_k^n$: $n$th field estimate evaluated at observation point $k$ (through interpolation),
+        \item $\varepsilon^2$: estimate of the ratio of observation error variance to background error variance.
+    \end{itemize}
+    \item The weights, $w_{ik}^n$ can be defined:
+    \begin{equation}
+        w_{ik}^n =
+        \begin{cases}
+            \frac{R_n^2 - r_{ik}^2}{R_n^2 + r_{ik}^2}       & \quad \text{for } r_{ik}^2 \leq R_n^2
+            \\
+            0  & \quad \text{for } r_{ik}^2 > R_n^2
+        \end{cases}
+    \end{equation}
+    where $r_{ik}^2$ is the square of the distance between an observation point $\mathbf{r}_k$ and a grid point $\mathbf{r}_i$. 
+    \item The radius of influence, $R_n$ varies from iteration to iteration.
+    \item $K_i^n$ is the number of observations within $R_n$ of grid point $i$.
+    \item $\varepsilon^2 > 0$ implies that the observations have errors, giving some weight to the background field.
+\end{itemize}
+
+\subsubsection{Nudging}
+\label{subs:empirical:nudging}
+
+\begin{itemize}
+    \item Another empirical data assimilation method is Newtonian relaxation, also known as nudging.
+    \item This involves adding an extra term to the prognostic equations that nudges the solution towards the observations.
+    \item A relaxation timescale, $\tau$, is chosen based on empirical considerations.
+    \begin{itemize}
+        \item If $\tau$ is very small, the solution converges towards the observations too quickly --- the dynamics do not have time to adjust.
+        \item If $\tau$ is very large, the errors in the model grow too much before the nudging takes effect.
+    \end{itemize}
+    \item Consider using a $\tau$ s.t. the last term is of a similar order of magnitude to the less dominant terms.
+    \item This method is not typically used for large-scale assimilation (why not?).
+    \item Might be used to assimilate small-scale observations when no statistics are available to perform statistical interpolation.
+\end{itemize}
+
+\subsection{Introduction to least squares methods}
+\label{sub:data_assimilation:squares}
+
+\subsubsection{Least squares method}
+\label{subs:squares:lsm}
+
+\subsubsection{Variational (cost function) approach}
+\label{subs:squares:variational}
+
+\subsubsection{Simplest sequential assimilation and Kalman filtering for a scalar}
+\label{subs:squares:sequential}
+
+\subsection{Multivariate statistical data asssimilation methods}
+\label{sub:data_assimilation:multivar}
+
+\subsection{3D-Var, the physical space analysis scheme (PSAS), and their relation to OI}
+\label{sub:data_assimilation:3d-var}
+
+\subsection{Advanced data assimilation methods with evolving forecast error covariance}
+\label{sub:data_assimilation:advanced}
+
+\subsection{Dynamical and physical balance in the initial conditions}
+\label{sub:data_assimilation:balance}
+
+\subsection{Quality control of observations}
+\label{sub:data_assimilation:quality}
+
+
+% \section{Atmospheric predictability and ensemble forecasting}
+% \label{sec:kalnay:predictability}
+
