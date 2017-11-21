@@ -1,7 +1,7 @@
 \chapter{Checking Kalnay working}
 \label{app:kalnay_working}
 
-\section{Working for least squares method}
+\section{Working for least squares coefficients}
 \label{sec:kalnay_working:least_squares}
 
 Showing that the coefficients $a_1$ and $a_2$ fulfil
@@ -61,3 +61,24 @@ Given that $T_a$ is unbiased, we have
 \begin{equation}
     \therefore a_1 + a_2 = 1
 \end{equation}
+
+\section{Working for mean square errors minimisation}
+\label{sub:kalnay_working:mse}
+
+Showing that minimisation of 
+\begin{equation}
+\sigma_a^2 = \mathbb{E} \left( \left( a_1(T_1 - T_t) + a_2(T_2 - T_t) \right)^2 \right)
+\end{equation}
+yields
+\begin{subequations}
+    \begin{align}
+    a_1 &= \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2}, \\
+    a_2 &= \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2}.
+    \end{align}
+\end{subequations}        
+
+\subsection{Assumptions}
+\label{sub:mse:assumptions}
+
+\subsection{Working}
+\label{sub:mse:working}
