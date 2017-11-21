@@ -7,7 +7,7 @@ The following constitutes the notes that I have made whilst going through Atmosp
 \label{sec:kalnay:historical_overview}
 
 \subsection{Introduction}
-\label{subs:historical_overview:introduction}
+\label{sub:historical_overview:introduction}
 
 The improvement in skill of numerical weather prediction over the last 40 years is due to the following factors:
 \begin{itemize}
@@ -18,10 +18,10 @@ The improvement in skill of numerical weather prediction over the last 40 years 
 \end{itemize}
 
 \subsection{Early developments}
-\label{subs:historical_overview:early_developments}
+\label{sub:historical_overview:early_developments}
 
 \subsection{Primitive equations, global and regional models, and nonhydrostatic models}
-\label{subs:historical_overview:primitive_equations}
+\label{sub:historical_overview:primitive_equations}
 
 Whilst quasi-geostrophic equations may be useful for understanding the large-scale extratropical dynamics of the atmosphere, they are not accurate enough to allow for continued progress in Numerical Weather Prediction (NWP).
 They are therefore replaced by the primitive equations.
@@ -41,7 +41,7 @@ This increase in resolution incurs greater computational cost though.
 Whilst modern numerical methods have attempted to alleviate this cost (using semi-implicit and semi-Lagrangian time schemes), the continued increase in spatial resolution is effectively an endless ``race to the bottom'', with constant demand for higher resolution to improve NWP forecasts.
 
 \subsection{Data assimilation determination of the initial conditions for the computer forecasts}
-\label{subs:historical_overview:assimilation}
+\label{sub:historical_overview:assimilation}
 
 \begin{itemize}
     \item NWP is an intial-value problem --- given an estimated starting state, the model forecasts the system's evolution --- as therefore, the determination of the initial conditions is very imporant.
@@ -76,7 +76,7 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
 \end{itemize}
 
 \subsection{Weather predictability, ensemble forecasting, and seasonal to interannual prediction}
-\label{subs:historical_overview:predictability}
+\label{sub:historical_overview:predictability}
 
 \begin{itemize}
     \item Given that the skill of forecasting decreases with time, it is suggested that stochastic forecasting should be favoured over deterministic forecasting, providing an estimate of the prediction.
@@ -164,8 +164,84 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
 \subsection{Introduction to least squares methods}
 \label{sub:data_assimilation:squares}
 
+\begin{itemize}
+    \item Methods outlined thus far have been deterministic data assimilation methods.
+    \item The following methods are based on statistical estimation.
+\end{itemize}
+
 \subsubsection{Least squares method}
 \label{subs:squares:lsm}
+
+\begin{itemize}
+    \item Methods outlined here are given by examples of both sequential and variational approaches.
+    \item A similar approach can be undertaken for multivariate optimal interpolation, kalman filtering, and 3D-Var and 4D-Var.
+    \item The best estimate of a state is obtained b combining prior information with observations.
+    \begin{itemize}
+        \item To optimise the combination process, we need statistical information about the errors in each of these.
+    \end{itemize}
+    \item \textbf{Example: Determining the true temperature, $T_t$, given two independent observations, $T_1$ and $T_2$}
+    \begin{itemize}
+        \item Each observation, $T_i$, has an associated unknown error, $\varepsilon_i$:
+        \begin{subequations}
+            \begin{align}
+                 T_1 &= T_t + \varepsilon_1, \\
+                 T_2 &= T_t + \varepsilon_2
+            \end{align}
+        \end{subequations}
+        \item Assume that the instrument used to measure $T_1$ and $T_2$ are unbiased, i.e.:
+        \begin{equation*}
+            E(T_1 - T_t) = E(T_2 - T_t) = 0 
+        \end{equation*}
+        or
+        \begin{equation}
+            E(\varepsilon_1) = E(\varepsilon_2) = 0
+        \end{equation}
+        \item Assume that the variances of the observational errors are known:
+        \begin{subequations}
+            \begin{align}
+                E(\varepsilon_1^2) = \sigma_1^2, \\
+                E(\varepsilon_2^2) = \sigma_2^2
+            \end{align}
+        \end{subequations}
+        \item Assume that the errors of the two measurements are uncorrelated:
+        \begin{equation}
+            E(\varepsilon_1 \varepsilon_2) = 0
+        \end{equation}
+        \item Attempt to estimate $T_t$ using a linear combination of the two observations:
+        \begin{equation}
+            T_a = a_1 T_1 + a_2 T_2
+        \end{equation}
+        \item The analysis, $T_a$ should be unbiased, i.e.:
+        \begin{equation}
+            E(T_a) = E(T_t),
+        \end{equation}
+        and therefore
+        \begin{equation}
+            a_1 + a_2 = 1. \label{eq:coefficients}
+        \end{equation}
+        (see Appendix \ref{sec:kalnay_working:least_squares} for details).
+        \item In order to make $T_a$ the best estimate of $T_t$, we aim to optimise the coefficients to minimise the mean squared error (MSE) of $T_a$:
+        \begin{align}
+            \sigma_a^2 &= \mathbb{E} \left( \left( T_a - T_t \right)^2 \right) \nonumber \\
+                        &= \mathbb{E} \left( \left( a_1(T_1 - T_t) + a_2(T_2 - T_t) \right)^2 \right) \label{eq:mse}
+        \end{align}
+        in line with constraints \ref{eq:coefficients}.
+        \item Substituting $a_2 = 1 - a_1$ into equation \ref{eq:mse}, the minimisation of $\sigma_a^2$ yields
+        \begin{subequations}
+            \begin{align}
+            a_1 &= \frac{\frac{1}{\sigma_1^2}}{\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}}, \\
+            a_2 &= \frac{\frac{1}{\sigma_2^2}}{\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}},
+            \end{align}
+        \end{subequations}
+        which can be rewritten as
+        \begin{subequations}
+            \begin{align}
+            a_1 &= \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2}, \\
+            a_2 &= \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2}.
+            \end{align}
+        \end{subequations}        
+    \end{itemize}
+\end{itemize}
 
 \subsubsection{Variational (cost function) approach}
 \label{subs:squares:variational}
