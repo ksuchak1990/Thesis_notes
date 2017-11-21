@@ -1,0 +1,63 @@
+\chapter{Checking Kalnay working}
+\label{app:kalnay_working}
+
+\section{Working for least squares method}
+\label{sec:kalnay_working:least_squares}
+
+Showing that the coefficients $a_1$ and $a_2$ fulfil
+\begin{equation}
+a_1 + a_2 = 1
+\end{equation}
+
+\subsection{Assumptions}
+\label{sub:least_squares:assumptions}
+
+\begin{itemize}
+    \item $T_1$ and $T_2$ are unbiased:
+    \begin{equation}
+        \mathbb{E}(T_1 - T_t) = \mathbb{E}(T_2 - T_t) = 0
+    \end{equation}
+    \item $T_a$ is unbiased:
+    \begin{equation}
+        \mathbb{E}(T_a) = \mathbb{E}(T_t)
+    \end{equation}
+\end{itemize}
+
+\subsection{Working}
+\label{sub:least_squares:working}
+
+We estimate $T_t$ with a linear combination of the two observations:
+\begin{equation}
+    T_a = a_1 T_1 + a_2 T_2,
+\end{equation}
+and thus
+\begin{equation}
+    \mathbb{E}(T_a) = \mathbb{E}(a_1 T_1 + a_2 T_2).
+\end{equation}
+Given that
+\begin{equation}
+    \mathbb{E}(X + Y) = \mathbb{E}(X) + \mathbb{E}(Y),
+\end{equation}
+we have
+\begin{equation}
+    \mathbb{E}(T_a) = \mathbb{E}(a_1 T_1) + \mathbb{E}(a_2 T_2).
+\end{equation}
+Given that
+\begin{equation}
+    \mathbb{E}(aX) = a \mathbb{E}(X),
+\end{equation}
+we have
+\begin{equation}
+    \mathbb{E}(T_a) = a_1 \mathbb{E}(T_1) + a_2 \mathbb{E}(T_2).
+\end{equation}
+Given that $T_1$ and $T_2$ are unbiased, we have
+\begin{equation}
+    \mathbb{E}(T_a) = a_1 \mathbb{E}(T_t) + a_2 \mathbb{E}(T_t).
+\end{equation}
+Given that $T_a$ is unbiased, we have
+\begin{equation*}
+    \mathbb{E}(T_t) = a_1 \mathbb{E}(T_t) + a_2 \mathbb{E}(T_t),
+\end{equation*}
+\begin{equation}
+    \therefore a_1 + a_2 = 1
+\end{equation}
