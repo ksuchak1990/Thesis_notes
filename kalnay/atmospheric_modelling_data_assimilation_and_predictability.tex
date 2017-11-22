@@ -190,22 +190,22 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
         \end{subequations}
         \item Assume that the instrument used to measure $T_1$ and $T_2$ are unbiased, i.e.:
         \begin{equation*}
-            E(T_1 - T_t) = E(T_2 - T_t) = 0 
+            \mathbb{E}(T_1 - T_t) = E(T_2 - T_t) = 0 
         \end{equation*}
         or
         \begin{equation}
-            E(\varepsilon_1) = E(\varepsilon_2) = 0
+            \mathbb{E}(\varepsilon_1) = \mathbb{E}(\varepsilon_2) = 0
         \end{equation}
         \item Assume that the variances of the observational errors are known:
         \begin{subequations}
             \begin{align}
-                E(\varepsilon_1^2) = \sigma_1^2, \\
-                E(\varepsilon_2^2) = \sigma_2^2
+                \mathbb{E}(\varepsilon_1^2) = \sigma_1^2, \\
+                \mathbb{E}(\varepsilon_2^2) = \sigma_2^2
             \end{align}
         \end{subequations}
         \item Assume that the errors of the two measurements are uncorrelated:
         \begin{equation}
-            E(\varepsilon_1 \varepsilon_2) = 0
+            \mathbb{E}(\varepsilon_1 \varepsilon_2) = 0
         \end{equation}
         \item Attempt to estimate $T_t$ using a linear combination of the two observations:
         \begin{equation}
@@ -213,7 +213,7 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
         \end{equation}
         \item The analysis, $T_a$ should be unbiased, i.e.:
         \begin{equation}
-            E(T_a) = E(T_t),
+            \mathbb{E}(T_a) = \mathbb{E}(T_t),
         \end{equation}
         and therefore
         \begin{equation}
