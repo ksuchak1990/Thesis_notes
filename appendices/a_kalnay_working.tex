@@ -59,7 +59,7 @@ Given that $T_a$ is unbiased, we have
     \mathbb{E}(T_t) = a_1 \mathbb{E}(T_t) + a_2 \mathbb{E}(T_t),
 \end{equation*}
 \begin{equation}
-    \therefore a_1 + a_2 = 1
+    \therefore a_1 + a_2 = 1 \label{eq:coeff_constraints}
 \end{equation}
 
 \section{Working for mean square errors minimisation}
@@ -80,5 +80,79 @@ yields
 \subsection{Assumptions}
 \label{sub:mse:assumptions}
 
+\begin{itemize}
+    \item The mean squared error (MSE) of $T_a$ is given by
+    \begin{equation}
+        \sigma_a^2 = \mathbb{E} \left( \left( a_1 \left( T_1 - T_t \right) + a_2 \left( T_2 - T_t \right) \right)^2 \right) \label{eq:ta_mse}
+    \end{equation}
+    \item Two independent temperature observations are given by
+    \begin{subequations}
+        \begin{align}
+        T_1 &= T_t + \varepsilon_1, \\
+        T_1 &= T_t + \varepsilon_1.
+        \end{align}
+        \label{:eq:t_independence}
+    \end{subequations}
+    \item Variances of the observation errors are given by
+    \begin{subequations}
+        \begin{align}
+            \mathbb{E}(\varepsilon_1^2) &= \sigma_1^2, \\
+            \mathbb{E}(\varepsilon_2^2) &= \sigma_2^2.
+        \end{align}
+        \label{eq:t_var}
+    \end{subequations}
+    \item The errors of the two measurements are uncorrelated:
+    \begin{equation}
+        \mathbb{E}(\varepsilon_1 \varepsilon_2) = 0 \label{eq:t_uncorrelated}
+    \end{equation}
+\end{itemize}
+
 \subsection{Working}
 \label{sub:mse:working}
+
+Starting with equation \ref{eq:ta_mse}, we substitute in equation \ref{eq:coeff_constraints}:
+\begin{equation*}
+        \sigma_a^2 = \mathbb{E} \left( \left( a_1 \left( T_1 - T_t \right) + (1 - a_1) \left( T_2 - T_t \right) \right)^2 \right).
+\end{equation*}
+Substituting in equation \ref{:eq:t_independence}
+\begin{align*}
+        \sigma_a^2 &= \mathbb{E} \left( \left( a_1 \left( T_t + \varepsilon_1 - T_t \right) + (1 - a_1) \left( T_t +\varepsilon_2 - T_t \right) \right)^2 \right) \\
+                    &= \mathbb{E} \left( \left( a_1 \varepsilon_1 +\varepsilon_2 - a_1 \varepsilon_2 \right)^2 \right)
+\end{align*}
+Multiplying out the square,
+\begin{equation*}
+    \sigma_a^2 = \mathbb{E} \left( a_1^2 \left( \varepsilon_1^2 + \varepsilon_2^2 - 2 \varepsilon_1 \varepsilon_2 \right) + a_1 \left( 2 \varepsilon_1 \varepsilon_2 - 2 \varepsilon_2^2 \right) + \varepsilon_2^2 \right)
+\end{equation*}
+Distributing the expectation over individual terms
+\begin{equation*}
+    \sigma_a^2 = a_1^2 \mathbb{E}(\varepsilon_1^2) + a_1^2 \mathbb{E}(\varepsilon_2^2) - 2 a_1^2 \mathbb{E}(\varepsilon_1 \varepsilon_2) + 2 a_1 \mathbb{E}(\varepsilon_1 \varepsilon_2) - 2 a_1 \mathbb{E}(\varepsilon_2^2) + \mathbb{E}(\varepsilon_2^2)
+\end{equation*}
+Making use of equation \ref{eq:t_uncorrelated},
+\begin{equation*}
+   \sigma_a^2 = a_1^2 \mathbb{E}(\varepsilon_1^2) + a_1^2 \mathbb{E}(\varepsilon_2^2) - 2 a_1 \mathbb{E}(\varepsilon_2^2) + \mathbb{E}(\varepsilon_2^2)
+\end{equation*}
+and substituting in equation \ref{eq:t_var},
+\begin{align*}
+   \sigma_a^2 &= a_1^2 \sigma_1^2 + a_1^2 \sigma_2^2 - 2 a_1 \sigma_2^2 + \sigma_2^2 \\
+                &= \left( \sigma_1^2 + \sigma_2^2 \right) a_1^2 - 2 \sigma_2^2 a_1 + \sigma_2^2
+\end{align*}
+Differentiating with respect to $a_1$:
+\begin{equation}
+    \frac{d \sigma_a^2}{da_1} = 2 \left( \sigma_1^2 + \sigma_2^2 \right) a_1 - 2 \sigma_2^2 \label{eq:derivative1}
+\end{equation}
+The stationary point is found by setting $\frac{d \sigma_a^2}{da_1} = 0$, and solving for $a_1$:
+\begin{equation*}
+    2 \left( \sigma_1^2 + \sigma_2^2 \right) a_1 - 2 \sigma_2^2 = 0
+\end{equation*}
+\begin{equation}
+\therefore a_1 = \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2} \label{eq:result_a1}
+\end{equation}
+We confirm that this critical point is, indeed a minimum by taking the second derivative, i.e. differentiating equation \ref{eq:derivative1} with respect to $a_1$:
+\begin{equation}
+    \frac{d^2 \sigma_a^2}{da_1^2} = 2 \left( \sigma_1^2 + \sigma_2^2 \right) \label{eq:derivative2}
+\end{equation}
+From equation \ref{eq:derivative2}, $\forall a_1$, $\frac{d^2 \sigma_a^2}{da_1^2} > 0$ and therefore $a_1 = \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2}$ is a minimum.
+We use equation \ref{eq:coeff_constraints} to deduce that
+\begin{equation}
+    a_2 = \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2} \label{eq:result_a2}
+\end{equation}
