@@ -16,7 +16,7 @@ a_1 + a_2 = 1
     \item $T_1$ and $T_2$ are unbiased:
     \begin{equation}
         \mathbb{E}(T_1 - T_t) = \mathbb{E}(T_2 - T_t) = 0
-    \end{equation}
+    \end{equation}{}
     \item $T_a$ is unbiased:
     \begin{equation}
         \mathbb{E}(T_a) = \mathbb{E}(T_t)
@@ -27,33 +27,33 @@ a_1 + a_2 = 1
 \label{sub:least_squares:working}
 
 We estimate $T_t$ with a linear combination of the two observations:
-\begin{equation}
+\begin{equation*}
     T_a = a_1 T_1 + a_2 T_2,
-\end{equation}
+\end{equation*}
 and thus
-\begin{equation}
+\begin{equation*}
     \mathbb{E}(T_a) = \mathbb{E}(a_1 T_1 + a_2 T_2).
-\end{equation}
+\end{equation*}
 Given that
-\begin{equation}
+\begin{equation*}
     \mathbb{E}(X + Y) = \mathbb{E}(X) + \mathbb{E}(Y),
-\end{equation}
+\end{equation*}
 we have
-\begin{equation}
+\begin{equation*}
     \mathbb{E}(T_a) = \mathbb{E}(a_1 T_1) + \mathbb{E}(a_2 T_2).
-\end{equation}
+\end{equation*}
 Given that
-\begin{equation}
+\begin{equation*}
     \mathbb{E}(aX) = a \mathbb{E}(X),
-\end{equation}
+\end{equation*}
 we have
-\begin{equation}
+\begin{equation*}
     \mathbb{E}(T_a) = a_1 \mathbb{E}(T_1) + a_2 \mathbb{E}(T_2).
-\end{equation}
+\end{equation*}
 Given that $T_1$ and $T_2$ are unbiased, we have
-\begin{equation}
+\begin{equation*}
     \mathbb{E}(T_a) = a_1 \mathbb{E}(T_t) + a_2 \mathbb{E}(T_t).
-\end{equation}
+\end{equation*}
 Given that $T_a$ is unbiased, we have
 \begin{equation*}
     \mathbb{E}(T_t) = a_1 \mathbb{E}(T_t) + a_2 \mathbb{E}(T_t),
@@ -63,7 +63,7 @@ Given that $T_a$ is unbiased, we have
 \end{equation}
 
 \section{Working for mean square errors minimisation}
-\label{sub:kalnay_working:mse}
+\label{sec:kalnay_working:mse}
 
 Showing that minimisation of 
 \begin{equation}
@@ -89,7 +89,7 @@ yields
     \begin{subequations}
         \begin{align}
         T_1 &= T_t + \varepsilon_1, \\
-        T_1 &= T_t + \varepsilon_1.
+        T_2 &= T_t + \varepsilon_2.
         \end{align}
         \label{:eq:t_independence}
     \end{subequations}
@@ -156,3 +156,49 @@ We use equation \ref{eq:coeff_constraints} to deduce that
 \begin{equation}
     a_2 = \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2} \label{eq:result_a2}
 \end{equation}
+
+\section{Working for analysis accuracy}
+\label{sec:kalnay:analysis}
+Showing that, based on equation \ref{eq:ta_mse}, the analysis variance fulfils
+\begin{equation}
+    \frac{1}{\sigma_a^2} = \frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}
+\end{equation}
+
+\subsection{Assumptions}
+\label{sub:analysis:assumptions}
+
+\begin{itemize}
+    \item Coefficients can be given by
+    \begin{subequations}
+        \begin{align}
+            a_1 &= \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2}, \\
+            a_2 &= \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2}.
+        \end{align}
+        \label{eq:coefficients_results}
+    \end{subequations}
+\end{itemize}
+
+\subsection{Working}
+\label{sub:analysis:working}
+
+Starting with equation \ref{eq:ta_mse}, we substitute in equation \ref{:eq:t_independence} which gives
+\begin{equation*}
+    \sigma_a^2 = \mathbb{E} \left( \left( a_1 \varepsilon_1 + a_2 \varepsilon_2 \right)^2 \right).
+\end{equation*}
+We then expand the squared term, distribute the expectation and eliminate $0$-terms:
+\begin{align*}
+    \sigma_a^2 &= \mathbb{E} \left( a_1^2 \varepsilon_1^2 \right) + \mathbb{E} \left( a_2^2 \varepsilon_2^2 \right) \\
+                &= a_1^2 \sigma_1^2 + a_2^2 \sigma_2^2
+\end{align*}
+Substituting in equation \ref{eq:coefficients_results} gives
+\begin{align*}
+    \sigma_a^2 &= \left( \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2} \right)^2 \sigma_1^2 + \left( \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2} \right)^2 \sigma_2^2 \\
+                &= \frac{\sigma_1^2 \sigma_2^4 + \sigma_1^4 \sigma_2^2}{\left( \sigma_1^2 + \sigma_2^2 \right)^2} \\
+                &= \frac{\sigma_1^2 \sigma_2^2 \left(\sigma_1^2 + \sigma_2^2 \right)}{\left(\sigma_1^2 + \sigma_2^2 \right)^2} \\
+                &= \frac{\sigma_1^2 \sigma_2^2}{\sigma_1^2 + \sigma_2^2}
+\end{align*}
+which, upon inversion, gives
+\begin{align}
+    \frac{1}{\sigma_a^2} &= \frac{\sigma_1^2 + \sigma_2^2}{\sigma_1^2 \sigma_2^2} \nonumber \\
+                            &= \frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}
+\end{align}
