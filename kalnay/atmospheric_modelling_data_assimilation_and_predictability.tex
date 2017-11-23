@@ -253,6 +253,15 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
 \subsubsection{Variational (cost function) approach}
 \label{subs:squares:variational}
 
+\begin{itemize}
+    \item We can also obtain the same best estimate of $T_t$ by minimising the cost function, $J$, which is defined as
+    \begin{equation}
+            J(T) = \frac{1}{2} \left[ \frac{\left( T - T_1 \right)^2}{\sigma_1^2} + \frac{\left( T - T_2 \right)^2}{\sigma_2^2} \right] \label{eq:cost_function}
+    \end{equation}
+    which is the sum of the squares of the distances of $T$ from each of the observations, weighted by their precision.
+    \item The minimum of the cost function is obtained for $T = T_a$ (see Appendix)
+\end{itemize}
+
 \subsubsection{Simplest sequential assimilation and Kalman filtering for a scalar}
 \label{subs:squares:sequential}
 
