@@ -239,7 +239,14 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
             a_1 &= \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2}, \\
             a_2 &= \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2}.
             \end{align}
-        \end{subequations}        
+        \end{subequations}
+        as seen in Appendix \ref{sec:kalnay_working:mse}.
+        \item  The author takes precision and accuracy to be synonymous, defining them to be the inverse of the observational error, i.e. $\frac{1}{\sigma^2}$. I disagree with this lumping of the two terms. Precision is a measure of the observational error, whilst accuracy is a measure of how close observations are to the true value. The definition here refers to precision, with the level of observational bias indicating the accuracy.
+        \item Based on the above definition of precision, we can use equation \ref{eq:mse} to define an expression for the analysis precision:
+        \begin{equation}
+            \frac{1}{\sigma_a^2} = \frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} \label{eq:}
+        \end{equation}
+        (see Appendix \ref{sec:kalnay:analysis} for working).
     \end{itemize}
 \end{itemize}
 
