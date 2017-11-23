@@ -138,7 +138,7 @@ and substituting in equation \ref{eq:t_var},
 \end{align*}
 Differentiating with respect to $a_1$:
 \begin{equation}
-    \frac{d \sigma_a^2}{da_1} = 2 \left( \sigma_1^2 + \sigma_2^2 \right) a_1 - 2 \sigma_2^2 \label{eq:derivative1}
+    \frac{\partial \sigma_a^2}{\partial a_1} = 2 \left( \sigma_1^2 + \sigma_2^2 \right) a_1 - 2 \sigma_2^2 \label{eq:derivative1}
 \end{equation}
 The stationary point is found by setting $\frac{d \sigma_a^2}{da_1} = 0$, and solving for $a_1$:
 \begin{equation*}
@@ -149,9 +149,9 @@ The stationary point is found by setting $\frac{d \sigma_a^2}{da_1} = 0$, and so
 \end{equation}
 We confirm that this critical point is, indeed a minimum by taking the second derivative, i.e. differentiating equation \ref{eq:derivative1} with respect to $a_1$:
 \begin{equation}
-    \frac{d^2 \sigma_a^2}{da_1^2} = 2 \left( \sigma_1^2 + \sigma_2^2 \right) \label{eq:derivative2}
+    \frac{\partial^2 \sigma_a^2}{\partial a_1^2} = 2 \left( \sigma_1^2 + \sigma_2^2 \right) \label{eq:derivative2}
 \end{equation}
-From equation \ref{eq:derivative2}, $\forall a_1$, $\frac{d^2 \sigma_a^2}{da_1^2} > 0$ and therefore $a_1 = \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2}$ is a minimum.
+From equation \ref{eq:derivative2}, $\forall a_1$, $\frac{\partial ^2 \sigma_a^2}{\partial a_1^2} > 0$ and therefore $a_1 = \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2}$ is a minimum.
 We use equation \ref{eq:coeff_constraints} to deduce that
 \begin{equation}
     a_2 = \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2} \label{eq:result_a2}
@@ -202,3 +202,74 @@ which, upon inversion, gives
     \frac{1}{\sigma_a^2} &= \frac{\sigma_1^2 + \sigma_2^2}{\sigma_1^2 \sigma_2^2} \nonumber \\
                             &= \frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}
 \end{align}
+
+\section{Working for cost function minimisation}
+\label{sec:kalnay_working:cost}
+
+Showing that the cost function
+\begin{equation*}
+    J(T) = \frac{}{} \left[ \frac{\left( T - T_1 \right)^2}{\sigma_1^2} + \frac{\left( T - T_1 \right)^2}{\sigma_1^2} \right]
+\end{equation*}
+is minimised for $T = T_a$ when using the coefficients found in equation \ref{eq:coefficients_results}.
+
+\subsection{Assumptions}
+\label{sub:cost:assumptions}
+
+\begin{itemize}
+    \item Not too much more to go in here.
+\end{itemize}
+
+\subsection{Working}
+\label{sub:cost:working}
+
+\begin{itemize}
+    \item We start with the cost function
+    \begin{equation}
+        J(T) = \frac{1}{2} \left[ \frac{\left( T - T_1 \right)^2}{\sigma_1^2} + \frac{\left( T - T_1 \right)^2}{\sigma_1^2} \right]
+    \end{equation}
+    and expand the squared terms:
+    \begin{align*}
+        J(T) &= \frac{1}{2} \left[ \frac{T^2 + T_1^2 - 2 T_1 T}{\sigma_1^2} + \frac{T^2 + T_2^2 - 2 T T_2}{\sigma_2^2} \right] \\
+                &= \frac{1}{2} \left[ 
+                    \left( \frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} \right) T^2 
+                    - 2 \left( \frac{T_1}{\sigma_1^2} + \frac{T_2}{\sigma_2^2} \right) T
+                    + \left( \frac{T_1^2}{\sigma_1^2} + \frac{T_2^2}{\sigma_2^2} \right) 
+                    \right]
+    \end{align*}
+    \item Differentiating with respect to $T$ gives:
+    \begin{align}
+        \frac{\partial J}{\partial T} &= \frac{1}{2} 
+        \left[
+            2 \left( \frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} \right) T
+            - 2 \left( \frac{T_1}{\sigma_1^2} + \frac{T_2}{\sigma_2^2} \right)
+        \right] \nonumber \\
+        &= \left( \frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} \right) T
+            - \left( \frac{T_1}{\sigma_1^2} + \frac{T_2}{\sigma_2^2} \right) \nonumber \\
+        &= \left(\frac{\sigma_1^2 + \sigma_2^2}{\sigma_1^2 \sigma_2^2} \right) T
+            - \left( \frac{T_1 \sigma_2^2 + T_2 \sigma_1^2}{\sigma_1^2 \sigma_2^2} \right) \nonumber \\
+        &= \frac{1}{\sigma_1^2 \sigma_2^2} \left[
+            \left( \sigma_1^2 + \sigma_2^2 \right) T 
+            - \left( T_1 \sigma_2^2 + T_2 \sigma_1^2 \right)
+        \right]
+    \end{align}
+    \item We find the stationary point by finding the value of $T$ for $\partial_T J = 0$:
+    \begin{align}
+        0 &= \frac{1}{\sigma_1^2 \sigma_2^2} \left[
+            \left( \sigma_1^2 + \sigma_2^2 \right) T 
+            - \left( T_1 \sigma_2^2 + T_2 \sigma_1^2 \right)
+        \right] \nonumber \\
+            &= \left( \sigma_1^2 + \sigma_2^2 \right) T 
+                - \left( T_1 \sigma_2^2 + T_2 \sigma_1^2 \right) \nonumber \\
+        \therefore T &= \frac{T_1 \sigma_2^2 +T_2 \sigma_1^2}{\sigma_1^2 + \sigma_2^2} \nonumber \\
+            &= \frac{\sigma_2^2}{\sigma_1^2 + \sigma_2^2} T_1
+                + \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2} T_2 \nonumber \\
+            &= a_1 T_1 + a_2 T_2 \nonumber \\
+        \therefore T &= T_a  
+    \end{align}
+    \item To confirm that the stationary point at $T = T_a$ is a minimum, we take $\partial_{TT} J$, i.e. the second derivative of $J$ with respect to $T$:
+    \begin{align*}
+        \frac{\partial^2 J}{\partial T^2} &= \frac{\sigma_1^2 + \sigma_2^2}{\sigma_1^2 \sigma_2^2} \\
+            &> 0 \, \forall \, T,
+    \end{align*}
+    and therefore the stationary point at $T = T_a$ is a minimum.
+\end{itemize}
