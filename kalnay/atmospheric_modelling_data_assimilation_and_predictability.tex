@@ -259,13 +259,34 @@ Whilst modern numerical methods have attempted to alleviate this cost (using sem
             J(T) = \frac{1}{2} \left[ \frac{\left( T - T_1 \right)^2}{\sigma_1^2} + \frac{\left( T - T_2 \right)^2}{\sigma_2^2} \right] \label{eq:cost_function}
     \end{equation}
     which is the sum of the squares of the distances of $T$ from each of the observations, weighted by their precision.
-    \item The minimum of the cost function is obtained for $T = T_a$ (see Appendix)
+    \item The minimum of the cost function is obtained for $T = T_a$ (see Appendix \ref{sec:kalnay_working:cost}).
+\end{itemize}
+\begin{itemize}
+    \item A alternative approach to arrive at this conclusion would be via a \emph{maximum likelihood} approach, whereby we seek to find the most likely value of the true temperature, $T_t$, given the following information:
+    \begin{itemize}
+        \item Two independent temperature observations, $T_1$ and $T_2$,
+        \item Both observations have normally distributed errors, with respective standard deviations $\sigma_1$ and $\sigma_2$,
+    \end{itemize}
+    \item In this approach, the analysis is defined as the most likely value of $T$ given the observations and their statistical errors.
+    \item We define the probability distributions of each of $T_1$ and $T_2$ given the true value $T$ and their respective standard deviations are given by Gaussian distributions:
+    \begin{subequations}
+        \begin{align}
+            p_{\sigma_1} \left( T_1 | T \right) &= \frac{1}{\sqrt{2 \pi} \sigma_1} e^{-\frac{\left( T_1 - T \right)^2}{2 \sigma_1^2}}, \\
+            p_{\sigma_2} \left( T_2 | T \right) &= \frac{1}{\sqrt{2 \pi} \sigma_2} e^{-\frac{\left( T_2 - T \right)^2}{2 \sigma_2^2}}.
+        \end{align}
+    \end{subequations}
+    \item The likelihood of the true value, $T$, given an observation, $T_i$, with standard deviation $\sigma_i$, is given by
+    \begin{equation}
+        \mathcal{L}_{\sigma_i} \left( T || T_i \right) = 
+            p_{\sigma_i} \left( T_i | T \right) =
+            \frac{1}{\sqrt{2 \pi}\sigma_i} e^{-\frac{\left( T_i - T \right)^2}{2 \sigma_i^2}}
+    \end{equation}
 \end{itemize}
 
 \subsubsection{Simplest sequential assimilation and Kalman filtering for a scalar}
 \label{subs:squares:sequential}
 
-\subsection{Multivariate statistical data asssimilation methods}
+\subsection{Multivariate statistical data assimilation methods}
 \label{sub:data_assimilation:multivar}
 
 \subsection{3D-Var, the physical space analysis scheme (PSAS), and their relation to OI}
