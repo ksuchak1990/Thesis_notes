@@ -281,12 +281,97 @@ Bayes' theorem is stated as
 \begin{equation}
     P \left( A | B \right)
     =
-    \frac{P \left( B | A \right) P \left( A \right)}{P \left( B \right)}
+    \frac{P \left( B | A \right) P \left( A \right)}{P \left( B \right)}\label{eq:bayes_th}
 \end{equation}
 where we use the following definitions:
 \begin{itemize}
-    \item $P \left( A | B \right)$ --- the probability of $A$ given $B$, known as the posterior,
-    \item $P \left( B | A \right)$ --- the probability of $B$ given $A$, known as the likelihood,
-    \item $P \left( A \right)$ --- the probability of $A$, known as the prior,
-    \item $P \left( B \right)$ --- the probability of $B$, known as the marginal likelihood.
+    \item $P \left( A | B \right)$ --- the probability of $A$ given $B$, known as the posterior distribution,
+    \item $P \left( B | A \right)$ --- the probability of $B$ given $A$, known as the likelihood or the sampling distribution,
+    \item $P \left( A \right)$ --- the probability of $A$, known as the prior distribution,
+    \item $P \left( B \right)$ --- the probability of $B$, known as the marginal likelihood or the evidence.
 \end{itemize}
+
+\section{Maximising the posterior probability}
+\label{sec:kalnay_working:max}
+
+Given
+\begin{equation}
+    p_{\sigma_2} \left( T | T_2 \right) = 
+    \frac{p_{\sigma_2} \left( T_2 | T \right) p_{T_1, \sigma_1} \left( T \right)}{p_{\sigma_2} \left( T_2 \right)}
+\end{equation}
+we take the logarithm of the numerator:
+\begin{align*}
+    \ln{\left( \frac{1}{\sqrt{2\pi} \sigma_2} e^{-\frac{\left( T_2 -T \right)^2}{2\sigma_2^2}} 
+    \frac{1}{\sqrt{2\pi} \sigma_1} e^{-\frac{\left( T_1 -T \right)^2}{2\sigma_1^2}}\right)}
+    &=
+    \ln{\left( \frac{1}{2\pi \sigma_1 \sigma_2} e^{-\frac{\left( T_1 -T \right)^2}{2\sigma_1^2} -\frac{\left( T_2 -T \right)^2}{2\sigma_2^2}}\right)} \\
+    &=
+    \ln{\left( \frac{1}{2\pi \sigma_1 \sigma_2} \right)}
+    +
+    \ln{\left( e^{-\frac{\left( T_1 -T \right)^2}{2\sigma_1^2} -\frac{\left( T_2 -T \right)^2}{2\sigma_2^2}} \right)} \\
+    &=
+    \ln{\left( \frac{1}{2\pi \sigma_1 \sigma_2} \right)}
+    -
+    \frac{\left( T_1 -T \right)^2}{2\sigma_1^2}
+    -
+    \frac{\left( T_2 -T \right)^2}{2\sigma_2^2} \\
+\end{align*}
+Differentiating with respect to $T$ gives
+\begin{align*}
+    &= \frac{\partial}{\partial T}
+    \left(
+    \ln{\left( \frac{1}{2\pi \sigma_1 \sigma_2} \right)}
+    -
+    \frac{\left( T_1 -T \right)^2}{2\sigma_1^2}
+    -
+    \frac{\left( T_2 -T \right)^2}{2\sigma_2^2}
+    \right) \\
+    &=
+    - \frac{\partial}{\partial T}
+    \left(
+    \frac{\left( T_1 -T \right)^2}{2\sigma_1^2}
+    +
+    \frac{\left( T_2 -T \right)^2}{2\sigma_2^2}
+    \right) \\
+    &=
+    - \left(
+    \frac{1}{2\sigma_1^2} \frac{\partial}{\partial T} \left( T_1 - T \right)^2
+    +
+    \frac{1}{2\sigma_2^2} \frac{\partial}{\partial T} \left( T_2 - T \right)^2
+    \right)
+\end{align*}
+Note that
+\begin{align*}
+    \frac{\partial}{\partial T} \left( T_i - T \right)
+    &=
+    \frac{\partial}{\partial T} \left( T_i^2 -2 T_i T + T^2 \right) \\
+    &=
+    2T - 2T_i
+\end{align*}
+and therefore the derivative becomes
+\begin{align*}
+    &=
+    - \left(
+    \frac{1}{2\sigma_1^2} \left( 2T - 2T_1 \right) +  \frac{1}{2\sigma_2^2} \left( 2T - 2T_2 \right)
+    \right) \\
+    &=
+    - \left(
+    \frac{T-T_1}{\sigma_1^2} + \frac{T-T_2}{\sigma_2^2}
+    \right) \\
+    &=
+    - \left(
+    \frac{\sigma_2^2 T - \sigma_2^2 T_1 + \sigma_1^2 T - \sigma_1^2 T_2}{\sigma_1^2 \sigma_2^2}
+    \right) \\
+    &=
+    - \frac{1}{\sigma_1^2 \sigma_2^2}
+    \left(
+    \left(\sigma_1^2 + \sigma_2^2 \right) T
+    -
+    \left( \sigma_2^2 T_1 + \sigma_1^2 T_2 \right)
+    \right)
+    =
+    - \frac{\partial J}{\partial T}
+\end{align*}
+where $J$ is defined as the cost function in equation \ref{eq:cost_function}.
+It is then trivial to show that finding the value of $T$ that maximises this expression is the same as finding the value of $T$ that minimises the cost function.
+
